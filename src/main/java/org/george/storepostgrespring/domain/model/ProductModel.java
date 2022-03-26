@@ -16,21 +16,28 @@ import java.util.Collection;
 public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_product")
     Long id;
-    @Column(name = "ds_product_code")
-    Long productCode;
-    @Column(name = "ds_description")
+
+    @Column(name = "nm_product")
+    String name;
+    @Column(name = "ds_product")
     String description;
-    @Column(name = "ds_unit_price")
+    @Column(name = "up_product")
     BigDecimal unitPrice;
-    @Column(name = "ds_quantity")
+    @Column(name = "qty_product")
     Long quantity;
 
-    @Embedded
-    CategoryModel category;
-
     @ManyToMany
-    Collection<PurchaseModel> purchases;
+    @JoinTable(
+            name = "tbl_product_orders",
+            joinColumns = @JoinColumn(name="id_product"),
+            inverseJoinColumns = @JoinColumn(name = "id_order")
+    )
+    Collection<ProductOrderModel> orders;
+
+    @Embedded
+    ProductCategory category;
 
 
 
